@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LibraryRingSpecies21apr2024
+﻿namespace LibraryRingSpecies21apr2024
 {
     // https://en.wikipedia.org/wiki/Ring_species
     public class Population21apr2024

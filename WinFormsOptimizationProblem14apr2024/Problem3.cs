@@ -1,0 +1,25 @@
+﻿using LibraryOptimization13apr2024;
+
+namespace WinFormsOptimizationProblem14apr2024
+{
+    public class Problem3 : Problem
+    {
+        public Problem3() : base(1)
+        {
+            this.LowerBounds.Add(-1);
+            this.UpperBounds.Add(2);
+        }
+
+        public override double GetFitness(params double[] genes)
+        {
+            double x = genes[0];
+
+            return -(x * Math.Sin(10 * Math.PI * x) + 1.0);
+        }
+
+        public override string ToString()
+        {
+            return "Minimization Problem of x * sin(10 Pi x) + 1.0";
+        }
+    }
+}

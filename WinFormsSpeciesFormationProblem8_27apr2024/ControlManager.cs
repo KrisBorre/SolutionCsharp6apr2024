@@ -1,35 +1,41 @@
-using LibrarySpeciesFormation18apr2024;
+﻿using LibraryIndividual27apr2024;
 using OxyPlot;
 using OxyPlot.Series;
+using OxyPlot.WindowsForms;
+using System.Globalization;
 
-namespace WinFormsSpeciesFormationProblem4_19apr2024
+namespace WinFormsSpeciesFormationProblem8_27apr2024
 {
-    public partial class Problem4Form : Form
+    internal class ControlManager
     {
+        private readonly List<Control> controls;
+
+        public List<Control> Controls
+        {
+            get { return controls; }
+        }
+
         private Label label1;
-        private OxyPlot.WindowsForms.PlotView plotView1;
+        private PlotView plotView1;
         private Label label2;
         private Button button1;
         private TextBox textBox1;
-        private Label label3;
-        private TextBox textBox2;
 
-        private Problem problem;
+        private Problem27apr2024 problem;
 
-        private int j = 0; // 1; // 0; // 1; //0;
+        private int j = 1; // 0;
 
-        public Problem4Form()
+        public ControlManager()
         {
-            InitializeComponent();
+            problem = new Problem8();
+
+            this.controls = new List<Control>();
 
             label1 = new Label();
-            plotView1 = new OxyPlot.WindowsForms.PlotView();
+            plotView1 = new PlotView();
             label2 = new Label();
             button1 = new Button();
             textBox1 = new TextBox();
-            label3 = new Label();
-            textBox2 = new TextBox();
-            SuspendLayout();
 
             label1.AutoSize = true;
             label1.Location = new Point(12, 9);
@@ -57,6 +63,13 @@ namespace WinFormsSpeciesFormationProblem4_19apr2024
             label2.TabIndex = 2;
             label2.Text = "number of generations:";
 
+            textBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            textBox1.Location = new Point(149, 423);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(39, 23);
+            textBox1.TabIndex = 4;
+            textBox1.Text = "2";
+
             button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button1.Location = new Point(712, 422);
             button1.Name = "button1";
@@ -66,60 +79,25 @@ namespace WinFormsSpeciesFormationProblem4_19apr2024
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
 
-            textBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            textBox1.Location = new Point(149, 423);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(39, 23);
-            textBox1.TabIndex = 4;
-            textBox1.Text = "20";
-
-            label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            label3.AutoSize = true;
-            label3.Location = new Point(251, 426);
-            label3.Name = "label3";
-            label3.Size = new Size(153, 15);
-            label3.TabIndex = 5;
-            label3.Text = "genetic distance parameter:";
-
-            textBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            textBox2.Location = new Point(410, 423);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(39, 23);
-            textBox2.TabIndex = 6;
-            textBox2.Text = "3";
-
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(textBox2);
-            Controls.Add(label3);
             Controls.Add(textBox1);
             Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(plotView1);
             Controls.Add(label1);
-            Name = "Problem2Form";
-            Text = "Form1";
-            ResumeLayout(false);
-            PerformLayout();
-
-            problem = new Problem4();
-
-            this.Text = problem.ToString();
 
             PlotModel plotModel = new PlotModel();
 
             LineSeries series = this.GetFitnessSeries(this.j);
             plotModel.Series.Add(series);
 
-            HistogramSeries chs = this.Simulate(this.j);
-            plotModel.Series.Add(chs);
+            HistogramSeries histogramSeries = this.Simulate(this.j);
+            plotModel.Series.Add(histogramSeries);
 
             this.plotView1.Model = plotModel;
         }
 
 
-        private LineSeries GetFitnessSeries(int j = 0)
+        private LineSeries GetFitnessSeries(int j = 1)
         {
             label1.Text = problem.ToString();
 
@@ -141,7 +119,7 @@ namespace WinFormsSpeciesFormationProblem4_19apr2024
                     double y = lowerBound1;
                     series.Points.Add(new DataPoint(x, problem.GetFitness(x, y)));
                 }
-                else //j = 1
+                else //j > 0
                 {
                     double x = lowerBound0;
                     double y = ((i * (upperBound1 - lowerBound1)) / numberOfPlotPoints) + lowerBound1;
@@ -152,56 +130,44 @@ namespace WinFormsSpeciesFormationProblem4_19apr2024
             return series;
         }
 
-        private HistogramSeries Simulate(int j = 0)
+        private HistogramSeries Simulate(int j = 1)
         {
-            const int populationSize = 5000; // 10000; // 1000;
-            Population18apr2024 population = new Population18apr2024(problem, populationSize);
+            int populationSize = 1000;
+            PopulationGenerator27apr2024 populationGenerator = new PopulationGenerator27apr2024();
+            Population27apr2024 population = populationGenerator.Initialize(this.problem, this.problem, populationSize);
 
-            int maximum_number_generations = 20; // 5; // 24; // 8;
+            int default_number_generations_to_simulate = 2;
 
             string input1 = textBox1.Text;
 
-            System.Globalization.NumberFormatInfo provider = new System.Globalization.NumberFormatInfo();
+            NumberFormatInfo provider = new NumberFormatInfo();
             provider.NumberDecimalSeparator = ".";
 
-            if (int.TryParse(s: input1, style: System.Globalization.NumberStyles.AllowDecimalPoint, provider: provider, result: out int max_number_generations))
+            if (int.TryParse(s: input1, style: NumberStyles.AllowDecimalPoint, provider: provider, result: out int number_generations_to_simulate_int))
             {
-                maximum_number_generations = max_number_generations;
+                default_number_generations_to_simulate = number_generations_to_simulate_int;
             }
             else
             {
-                textBox1.Text = maximum_number_generations.ToString();
+                textBox1.Text = default_number_generations_to_simulate.ToString();
             }
 
-            string input2 = textBox2.Text;
-
-            double geneticDistanceThreshold = 0.18;
-
-            if (double.TryParse(s: input2, style: System.Globalization.NumberStyles.AllowDecimalPoint, provider: provider, result: out double double_geneticDistanceThreshold))
-            {
-                geneticDistanceThreshold = double_geneticDistanceThreshold;
-            }
-            else
-            {
-                textBox2.Text = geneticDistanceThreshold.ToString();
-            }
-
-            for (int generation = 0; generation < maximum_number_generations; generation++)
+            for (int generation = 0; generation < default_number_generations_to_simulate; generation++)
             {
                 population.Evaluate();
-                population.Repopulate21apr2024(geneticDistanceThreshold: geneticDistanceThreshold);
+                population = populationGenerator.Next(population);
             }
 
             double lowerBound = problem.LowerBounds[j];
             double upperBound = problem.UpperBounds[j];
 
-            HistogramSeries chs = new HistogramSeries();
+            HistogramSeries histogramSeries = new HistogramSeries();
             var binningOptions = new BinningOptions(BinningOutlierMode.CountOutliers, BinningIntervalType.InclusiveLowerBound, BinningExtremeValueMode.ExcludeExtremeValues);
-            var binBreaks = HistogramHelpers.CreateUniformBins(start: lowerBound, end: upperBound, binCount: 100);
-            chs.Items.AddRange(HistogramHelpers.Collect(population.Sample(j), binBreaks, binningOptions));
-            chs.StrokeThickness = 1;
+            var binBreaks = HistogramHelpers.CreateUniformBins(start: lowerBound, end: upperBound, binCount: 300);
+            histogramSeries.Items.AddRange(HistogramHelpers.Collect(population.Sample(j), binBreaks, binningOptions));
+            histogramSeries.StrokeThickness = 1;
 
-            return chs;
+            return histogramSeries;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -211,8 +177,8 @@ namespace WinFormsSpeciesFormationProblem4_19apr2024
             LineSeries series = this.GetFitnessSeries(this.j);
             plotModel.Series.Add(series);
 
-            HistogramSeries chs = this.Simulate(this.j);
-            plotModel.Series.Add(chs);
+            HistogramSeries histogramSeries = this.Simulate(this.j);
+            plotModel.Series.Add(histogramSeries);
 
             this.plotView1.Model = plotModel;
         }

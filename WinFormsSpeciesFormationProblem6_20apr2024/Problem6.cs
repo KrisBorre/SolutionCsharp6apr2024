@@ -1,6 +1,6 @@
 ﻿using LibrarySpeciesFormation18apr2024;
 
-namespace WinFormsRingSpeciesProblem6_21apr2024
+namespace WinFormsSpeciesFormationProblem6_20apr2024
 {
     public class Problem6 : Problem
     {

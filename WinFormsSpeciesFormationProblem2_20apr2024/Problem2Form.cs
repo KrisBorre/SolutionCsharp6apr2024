@@ -1,6 +1,6 @@
 using LibrarySpeciesFormation18apr2024;
-using OxyPlot.Series;
 using OxyPlot;
+using OxyPlot.Series;
 
 namespace WinFormsSpeciesFormationProblem2_20apr2024
 {
@@ -79,7 +79,7 @@ namespace WinFormsSpeciesFormationProblem2_20apr2024
             }
             else
             {
-                textBox1.Text = geneticDistanceThreshold.ToString();
+                textBox2.Text = geneticDistanceThreshold.ToString();
             }
 
             for (int generation = 0; generation < maximum_number_generations; generation++)

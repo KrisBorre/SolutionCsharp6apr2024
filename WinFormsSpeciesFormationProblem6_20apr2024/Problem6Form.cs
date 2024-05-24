@@ -2,7 +2,7 @@ using LibrarySpeciesFormation18apr2024;
 using OxyPlot;
 using OxyPlot.Series;
 
-namespace WinFormsRingSpeciesProblem6_21apr2024
+namespace WinFormsSpeciesFormationProblem6_20apr2024
 {
     public partial class Problem6Form : Form
     {
@@ -183,7 +183,7 @@ namespace WinFormsRingSpeciesProblem6_21apr2024
             }
             else
             {
-                textBox1.Text = geneticDistanceThreshold.ToString();
+                textBox2.Text = geneticDistanceThreshold.ToString();
             }
 
             for (int generation = 0; generation < maximum_number_generations; generation++)

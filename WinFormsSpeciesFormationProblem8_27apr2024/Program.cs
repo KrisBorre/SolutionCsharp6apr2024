@@ -1,4 +1,4 @@
-namespace WinFormsSpeciesFormationProblem6_20apr2024
+namespace WinFormsSpeciesFormationProblem8_27apr2024
 {
     internal static class Program
     {
@@ -11,7 +11,7 @@ namespace WinFormsSpeciesFormationProblem6_20apr2024
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Problem6Form());
+            Application.Run(new Problem8Form());
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace WinFormsSpeciesFormationProblem6_20apr2024
+﻿namespace WinFormsSpeciesFormationProblem8_27apr2024
 {
-    partial class Problem6Form
+    partial class Problem8Form
     {
         /// <summary>
         ///  Required designer variable.

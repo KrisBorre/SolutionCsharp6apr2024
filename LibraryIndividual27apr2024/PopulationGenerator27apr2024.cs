@@ -28,7 +28,7 @@
         /// <returns></returns>
         public Population27apr2024 Next(Population27apr2024 originalPopulation)
         {
-            int initialPopulationSize = originalPopulation.Individuals.Count;
+            int populationSize = originalPopulation.Count;
 
             Population27apr2024 newPopulation = new Population27apr2024(originalPopulation.MaleProblem, originalPopulation.FemaleProblem);
 
@@ -41,7 +41,7 @@
             double highestFitness = originalPopulation.GetHighestFitness();
             double lowestFitness = originalPopulation.GetLowestFitness();
 
-            for (int member = 0; member < originalPopulation.Count; member++)
+            for (int member = 0; member < populationSize; member++)
             {
                 Individual27apr2024 elder = originalPopulation[member];
 
@@ -54,18 +54,16 @@
                 }
             }
 
-            double power = Math.Log10(originalPopulation.Count);
-            //power = 1;
+            double power = Math.Log10(populationSize);
 
-            for (int member1 = 0; member1 < originalPopulation.Count; member1++)
+            for (int member1 = 0; member1 < populationSize; member1++)
             {
                 Individual27apr2024 parent1 = originalPopulation[member1];
                 double relativeFitness1 = (parent1.Fitness - lowestFitness) / (highestFitness - lowestFitness);
 
-                //if (relativeFitness1 > random.NextDouble())
                 if (Math.Pow(relativeFitness1, power) > random.NextDouble())
                 {
-                    for (int member2 = 0; member2 < originalPopulation.Count; member2++)
+                    for (int member2 = 0; member2 < populationSize; member2++)
                     {
                         if (member1 != member2)
                         {
@@ -75,7 +73,6 @@
                             {
                                 double relativeFitness2 = (parent2.Fitness - lowestFitness) / (highestFitness - lowestFitness);
 
-                                //if (relativeFitness2 > random.NextDouble())
                                 if (Math.Pow(relativeFitness2, power) > random.NextDouble())
                                 {
                                     if (geneticDistanceCalculator.CalculateDistance(parent1, parent2) < 1.75 * random.NextDouble())
@@ -98,7 +95,7 @@
 
             Population27apr2024 newestPopulation = new Population27apr2024(originalPopulation.MaleProblem, originalPopulation.FemaleProblem);
 
-            for (int member = 0; member < Math.Min(originalPopulation.Count, newPopulation.Individuals.Count); member++)
+            for (int member = 0; member < Math.Min(populationSize, newPopulation.Individuals.Count); member++)
             {
                 Individual27apr2024 individual = newPopulation.Individuals[member];
 

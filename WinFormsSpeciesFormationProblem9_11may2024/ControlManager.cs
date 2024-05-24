@@ -4,7 +4,7 @@ using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 using System.Globalization;
 
-namespace WinFormsSpeciesFormationProblem8_27apr2024
+namespace WinFormsSpeciesFormationProblem9_11may2024
 {
     internal class ControlManager
     {
@@ -27,7 +27,7 @@ namespace WinFormsSpeciesFormationProblem8_27apr2024
 
         public ControlManager()
         {
-            problem = new Problem8();
+            problem = new Problem9();
 
             this.controls = new List<Control>();
 
@@ -113,6 +113,7 @@ namespace WinFormsSpeciesFormationProblem8_27apr2024
 
                     double[] y = new double[problem.NumberOfProblemVariables];
                     y[0] = x;
+
                     for (int k = 1; k < problem.NumberOfProblemVariables; k++)
                     {
                         y[k] = problem.LowerBounds[k];
@@ -140,7 +141,7 @@ namespace WinFormsSpeciesFormationProblem8_27apr2024
 
         private HistogramSeries Simulate(int j = 1)
         {
-            int populationSize = 1000;
+            int populationSize = 10000;
             PopulationGenerator27apr2024 populationGenerator = new PopulationGenerator27apr2024();
             Population27apr2024 population = populationGenerator.Initialize(this.problem, this.problem, populationSize);
 

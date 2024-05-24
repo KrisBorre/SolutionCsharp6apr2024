@@ -34,6 +34,8 @@
 
             IndividualGenerator27apr2024 individualGenerator = new IndividualGenerator27apr2024(newPopulation.NumberOfProblemVariables, newPopulation.LowerBounds, newPopulation.UpperBounds);
 
+            GeneticDistanceCalculator27apr2024 geneticDistanceCalculator = new GeneticDistanceCalculator27apr2024(newPopulation.NumberOfProblemVariables);
+
             Random random = new Random();
 
             double highestFitness = originalPopulation.GetHighestFitness();
@@ -76,9 +78,12 @@
                                 //if (relativeFitness2 > random.NextDouble())
                                 if (Math.Pow(relativeFitness2, power) > random.NextDouble())
                                 {
-                                    Individual27apr2024 child = individualGenerator.NewIndividual(parent1, parent2);
+                                    if (geneticDistanceCalculator.CalculateDistance(parent1, parent2) < 1.75 * random.NextDouble())
+                                    {
+                                        Individual27apr2024 child = individualGenerator.NewIndividual(parent1, parent2);
 
-                                    newPopulation.Individuals.Add(child);
+                                        newPopulation.Individuals.Add(child);
+                                    }
                                 }
                             }
                         }
@@ -93,7 +98,7 @@
 
             Population27apr2024 newestPopulation = new Population27apr2024(originalPopulation.MaleProblem, originalPopulation.FemaleProblem);
 
-            for (int member = 0; member < originalPopulation.Count; member++)
+            for (int member = 0; member < Math.Min(originalPopulation.Count, newPopulation.Individuals.Count); member++)
             {
                 Individual27apr2024 individual = newPopulation.Individuals[member];
 

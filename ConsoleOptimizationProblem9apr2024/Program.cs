@@ -1,6 +1,6 @@
 ﻿using LibraryOptimization9apr2024;
 
-namespace ConsoleOptimizationProblem10apr2024
+namespace ConsoleOptimizationProblem9apr2024
 {
     internal class Program
     {

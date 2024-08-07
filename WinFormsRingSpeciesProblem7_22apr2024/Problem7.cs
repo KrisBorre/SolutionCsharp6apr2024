@@ -20,7 +20,7 @@ namespace WinFormsRingSpeciesProblem7_22apr2024
         {
             double x = genes[0];
             double y = genes[1];
-            double z = genes[1];
+            double z = genes[2];
 
             return 21.5 + x * Math.Sin(4 * Math.PI * x) + y * Math.Sin(20 * Math.PI * y) + z * Math.Sin(0.5 * Math.PI * z);
         }

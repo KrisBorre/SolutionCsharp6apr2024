@@ -8,9 +8,10 @@ namespace LibraryDifferentialEquationsEllipticFunctions9apr2024
     {
         public DifferentialEquationsEllipticFunctions9apr2024()
         {
-            this.NumberOfFirstOrderEquations = 2;
+            this.NumberOfFirstOrderEquations = 3;
             this[0] = new DifferentialEquation1<T>();
-            this[1] = new DifferentialEquation2<T>();          
+            this[1] = new DifferentialEquation2<T>();
+            this[2] = new DifferentialEquation3<T>();
         }
     }
 }
